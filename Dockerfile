@@ -28,8 +28,9 @@ RUN  ${NDK_ROOT}/build/tools/make-standalone-toolchain.sh --platform=android-14 
 ENV PATH ${NDK_ROOT}:$PATH
 ENV ANDROID_NDK_HOME ${NDK_ROOT}
 ADD x86.sh /installs/libsodium/dist-build/x86.sh
+ADD arm.sh /installs/libsodium/dist-build/arm.sh
 ADD android.sh /installs/libsodium/dist-build/android.sh
-RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/x86.sh
+RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/arm.sh
 
 RUN cd /installs && git clone https://github.com/joshjdevl/kalium-jni
 RUN apt-get install -y libpcre3-dev  libpcre++-dev
@@ -45,3 +46,4 @@ RUN cd /installs/kalium-jni && git pull
 RUN cd /installs/kalium-jni/jni && ./compile.sh
 RUN cd /installs/kalium-jni && mvn clean install
 RUN cd /installs/kalium-jni && ./singleTest.sh
+RUN cd /installs/kalium-jni && ndk-build
