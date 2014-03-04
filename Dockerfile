@@ -22,12 +22,14 @@ RUN apt-get -y install gettext-base gettext
 RUN cd /installs/libsodium && ./autogen.sh
 RUN cd /installs/libsodium && ./configure && make && make check && make install
 
-ENV PATH /installs/libsodium/android-toolchain/bin:/installs/android-ndk-r9c:$PATH
+ENV PATH /installs/libsodium/android-toolchain/bin:${NDK_ROOT}:$PATH
 RUN apt-get install -y vim
-RUN  /installs/android-ndk-r9c/build/tools/make-standalone-toolchain.sh --platform=android-14 --arch=arm --install-dir=/installs/libsodium/android-toolchain --system=linux-x86_64
-ENV PATH /installs/android-ndk-r9c:$PATH
-#ENV ANDROID_NDK_HOME /installs/android-ndk-r9c
-RUN cd /installs/libsodium && ./dist-build/android-build.sh 
+RUN  ${NDK_ROOT}/build/tools/make-standalone-toolchain.sh --platform=android-14 --arch=arm --install-dir=/installs/libsodium/android-toolchain --system=linux-x86_64 --ndk-dir=${NDK_ROOT}
+ENV PATH ${NDK_ROOT}:$PATH
+ENV ANDROID_NDK_HOME ${NDK_ROOT}
+ADD x86.sh /installs/libsodium/dist-build/x86.sh
+ADD android.sh /installs/libsodium/dist-build/android.sh
+RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/x86.sh
 
 RUN cd /installs && git clone https://github.com/joshjdevl/kalium-jni
 RUN apt-get install -y libpcre3-dev  libpcre++-dev
