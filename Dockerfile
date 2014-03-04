@@ -46,4 +46,4 @@ RUN cd /installs/kalium-jni && git pull
 RUN cd /installs/kalium-jni/jni && ./compile.sh
 RUN cd /installs/kalium-jni && mvn clean install
 RUN cd /installs/kalium-jni && ./singleTest.sh
-RUN cd /installs/kalium-jni && ndk-build
+RUN cd /installs/kalium-jni && git pull && ndk-build
