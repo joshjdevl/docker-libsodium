@@ -27,10 +27,10 @@ RUN apt-get install -y vim
 RUN  ${NDK_ROOT}/build/tools/make-standalone-toolchain.sh --platform=android-14 --arch=arm --install-dir=/installs/libsodium/android-toolchain --system=linux-x86_64 --ndk-dir=${NDK_ROOT}
 ENV PATH ${NDK_ROOT}:$PATH
 ENV ANDROID_NDK_HOME ${NDK_ROOT}
-ADD x86.sh /installs/libsodium/dist-build/x86.sh
-ADD arm.sh /installs/libsodium/dist-build/arm.sh
-ADD android.sh /installs/libsodium/dist-build/android.sh
-RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/arm.sh
+#ADD x86.sh /installs/libsodium/dist-build/x86.sh
+#ADD arm.sh /installs/libsodium/dist-build/arm.sh
+#ADD android.sh /installs/libsodium/dist-build/android.sh
+RUN cd /installs/libsodium && git pull && ./dist-build/android-arm.sh
 
 RUN cd /installs && git clone https://github.com/joshjdevl/kalium-jni
 RUN apt-get install -y libpcre3-dev  libpcre++-dev
