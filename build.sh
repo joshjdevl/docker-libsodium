@@ -1,2 +1,2 @@
-sudo docker build -t joshjdevl/libsodium .
+sudo docker build -t joshjdevl/docker-libsodium .
 

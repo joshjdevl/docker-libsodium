@@ -1,2 +1,2 @@
-sudo docker run -i -t joshjdevl/libsodium /bin/bash
+sudo docker run -i -t -v /tmp:/shared joshjdevl/docker-libsodium /bin/bash
 
