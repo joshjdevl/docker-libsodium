@@ -4,7 +4,7 @@ MAINTAINER joshjdevl < joshjdevl [at] gmail {dot} com>
 ENV DEBIAN_FRONTEND noninteractive
 
 #ENV PATH /usr/local/opt/python/current/bin:/usr/local/opt/apache/current/bin:/usr/local/opt/redis/current/bin:$PATH
-ENV NDK_ROOT /installs/android-ndk-r9c
+ENV NDK_ROOT /installs/android-ndk-r9d
 
 RUN apt-get update
 RUN apt-get install -y python-software-properties
@@ -16,9 +16,9 @@ RUN apt-get -y install apt-fast
 RUN apt-fast update
 RUN apt-fast install -y wget git sudo
 RUN mkdir /installs
-RUN cd /installs && wget --quiet http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
+RUN cd /installs && wget --quiet http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86_64.tar.bz2
 RUN apt-fast -y install bzip2
-RUN cd /installs && tar -xf android-ndk-r9c-linux-x86_64.tar.bz2
+RUN cd /installs && tar -xf android-ndk-r9d-linux-x86_64.tar.bz2
 RUN cd /installs && git clone https://github.com/jedisct1/libsodium.git
 RUN apt-fast -y install autoconf autoconf automake build-essential
 RUN apt-fast -y install autogen libtool gettext-base gettext
@@ -30,10 +30,9 @@ RUN apt-fast install -y vim
 RUN  ${NDK_ROOT}/build/tools/make-standalone-toolchain.sh --platform=android-14 --arch=arm --install-dir=/installs/libsodium/android-toolchain --system=linux-x86_64 --ndk-dir=${NDK_ROOT}
 ENV PATH ${NDK_ROOT}:$PATH
 ENV ANDROID_NDK_HOME ${NDK_ROOT}
-ADD x86.sh /installs/libsodium/dist-build/x86.sh
-ADD arm.sh /installs/libsodium/dist-build/arm.sh
-ADD android.sh /installs/libsodium/dist-build/android.sh
-RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/arm.sh
+RUN cd /installs/libsodium/dist-build && /bin/sed -i '/#!\/bin\/sh/c\#!\/bin\/bash' android-arm.sh
+RUN cd /installs/libsodium/dist-build && /bin/sed -i '/#!\/bin\/sh/c\#!\/bin\/bash' android-build.sh
+RUN cd /installs/libsodium && git pull && /bin/bash ./dist-build/android-arm.sh
 
 RUN cd /installs && git clone https://github.com/joshjdevl/kalium-jni
 RUN apt-fast install -y libpcre3-dev  libpcre++-dev
@@ -48,4 +47,4 @@ RUN cd /installs/kalium-jni && git pull
 RUN cd /installs/kalium-jni/jni && ./compile.sh
 RUN cd /installs/kalium-jni && mvn -q clean install
 RUN cd /installs/kalium-jni && ./singleTest.sh
-RUN cd /installs/kalium-jni && git pull && ndk-build
+#RUN cd /installs/kalium-jni && git pull && ndk-build
