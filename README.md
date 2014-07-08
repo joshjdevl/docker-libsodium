@@ -1,4 +1,7 @@
 docker-libsodium
 ================
 
-libsodium docker build
+Android build
+
+Builds libsodium Android static library
+Builds kalium-jni Android shared library
