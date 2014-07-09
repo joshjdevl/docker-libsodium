@@ -51,7 +51,7 @@ RUN cd /installs/libsodium && ./dist-build/android-x86.sh
 RUN cd /installs && git clone https://github.com/joshjdevl/kalium-jni && cd /installs/kalium-jni && git pull
 
 RUN cd /installs/kalium-jni/jni && ./installswig.sh
-RUN cd /installs/kalium-jni && git pull
+RUN cd /installs/kalium-jni && git pull && git pull
 RUN cd /installs/kalium-jni/jni && ./compile.sh
 RUN cd /installs/kalium-jni && mvn -q clean install
 RUN cd /installs/kalium-jni && ./singleTest.sh
